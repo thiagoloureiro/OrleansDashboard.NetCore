@@ -31,7 +31,11 @@ namespace SiloHost
                     .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
                     .UseInMemoryReminderService()
                     .ConfigureEndpoints(siloAddress, siloPort, gatewayPort)
-                    .Configure<ClusterOptions>(options => options.ClusterId = "helloworldcluster")
+                    .Configure<ClusterOptions>(options =>
+                    {
+                        options.ClusterId = "helloworldcluster";
+                        options.ServiceId = Guid.NewGuid().ToString();
+                    })
                     .ConfigureApplicationParts(appParts => appParts.AddApplicationPart(typeof(TestCalls).Assembly))
                     .ConfigureLogging(builder =>
                     {
